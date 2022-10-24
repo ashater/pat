@@ -21,7 +21,9 @@ copy actual python file into the same dir as the executable
 Hardcoded Win path in ```st_run.spec```
 
 
+### First cut
 
+![demo](first_cut.gif)
 
 
 
