@@ -1,0 +1,10 @@
+name: streamlit-pat
+channels:
+  - defaults
+dependencies:
+  - pandas
+  - pyinstaller 
+  - pip
+  - pip:
+      - psutil
+      - streamlit
