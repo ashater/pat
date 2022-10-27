@@ -1,5 +1,8 @@
 # -*- mode: python ; coding: utf-8 -*-
+import os
 
+
+base_venv = os.environ['CONDA_PREFIX']
 
 block_cipher = None
 
@@ -9,11 +12,11 @@ a = Analysis(['st_run.py'],
              binaries=[],
              datas=[
                  (
-                     "C:/Users/ashat/anaconda3/envs/streamlit-pat/Lib/site-packages/altair/vegalite/v4/schema/vega-lite-schema.json",
+                     os.path.join(base_venv, "Lib/site-packages/altair/vegalite/v4/schema/vega-lite-schema.json"),
                      "./altair/vegalite/v4/schema/"
                  ),
                  (
-                     "C:/Users/ashat/anaconda3/envs/streamlit-pat/Lib/site-packages/streamlit/static",
+                      os.path.join(base_venv, "Lib/site-packages/streamlit/static"),
                      "./streamlit/static"
                  )
             ],

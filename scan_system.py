@@ -16,6 +16,9 @@ st.set_page_config(layout="wide")
 
 @st.cache
 def list_files(file_loc: str) -> List:
+    """
+        Function to list files on a local file system
+    """
 
     file_list = []
     extension_list = set()
@@ -32,6 +35,9 @@ file_series, extension_series = list_files(folder)
 
 
 def list_processes():
+    """
+        List running processes
+    """
     res = []
     for proc in psutil.process_iter(['pid', 'name', 'username', 'exe']):
         res.append(proc.info)
@@ -39,6 +45,9 @@ def list_processes():
     return pd.DataFrame(res)
 
 def get_network():
+    """
+        Function gets all the connections and maps to actual port types
+    """
     network_df = pd.DataFrame.from_dict(list(map(lambda x: { 'pid': str(x.pid), 'laddr': str(x.laddr), 
                             'raddr': str(x.raddr), 'status': str(x.status), 'type': str(x.type), 
                             'rport_type': map_port(x.raddr),
@@ -49,7 +58,9 @@ def get_network():
     return network_df                            
 
 def map_port(addr):
-
+    """
+        Helper for port name resolution
+    """
     if addr:
         try:
             return getservbyport(addr.port)
@@ -59,7 +70,9 @@ def map_port(addr):
         return ""
 
 def get_win_services():
-    
+    """
+        Windows service listing
+    """
     services = []
     for ser in psutil.win_service_iter():
         services.append(ser.as_dict())
@@ -71,7 +84,9 @@ def get_win_services():
 
 
 def search_frame(df, srch_str):
-
+    """
+        Generic data frame searching function, assumes OR search across all columns
+    """
     base = pd.Series([False] *df.shape[0])
     for col in df.columns:
         base|= df[col].astype('str').str.contains(srch_str)
