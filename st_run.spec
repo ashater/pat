@@ -1,10 +1,13 @@
 # -*- mode: python ; coding: utf-8 -*-
 import os
-
+import site
 
 base_venv = os.environ['CONDA_PREFIX']
-
+    
 block_cipher = None
+for s in site.getsitepackages():
+    if 'site-packages' in s:
+        base_venv = s
 
 
 a = Analysis(['st_run.py'],
@@ -12,16 +15,16 @@ a = Analysis(['st_run.py'],
              binaries=[],
              datas=[
                  (
-                     os.path.join(base_venv, "Lib/site-packages/altair/vegalite/v4/schema/vega-lite-schema.json"),
+                     os.path.join(base_venv, "altair/vegalite/v4/schema/vega-lite-schema.json"),
                      "./altair/vegalite/v4/schema/"
                  ),
                  (
-                      os.path.join(base_venv, "Lib/site-packages/streamlit/static"),
+                      os.path.join(base_venv, "streamlit/static"),
                      "./streamlit/static"
                  )
             ],
              hiddenimports=[],
-             hookspath=['c:\\work\\pat\\hooks'],
+             hookspath=['./hooks'],
              hooksconfig={},
              runtime_hooks=[],
              excludes=[],
