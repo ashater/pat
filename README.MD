@@ -27,9 +27,9 @@ WDAGUtilityAccount
 ```PowerShell
 (Get-LocalUser).Name | ForEach-Object -Process {   $_  }
 ``` 
-iterates over each local user on the systems and executes code in ```-Process``` block in ```{ }``` with ```$_``` variable for username of the local user
+iterates over each local user on the system and executes code in ```-Process``` block in ```{ }``` with ```$_``` variable for username of the local user
 
-Now we check if the local users are in our authorized list, with operator ```-notin```:
+Now we check if the local users are in our authorized list file, with operator ```-notin```:
 ```PowerShell
  (Get-LocalUser).Name | ForEach-Object -Process {  $_ -notin  (Get-Content -Path C:\CyberPatriot\authorized.txt)  }
 
