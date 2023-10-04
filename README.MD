@@ -1,29 +1,53 @@
 # Repo for CyberPATRIOT Tools
 ![logo](CYBERPATRIOT_mid.jpg)
 
-### Single Python tool for scan the system
-
-### Multi-platform deploy TBD
-
-### Using ```pyinstaller``` to create distribution:
-
-How to get streamlit to work:
-https://discuss.streamlit.io/t/using-pyinstaller-or-similar-to-create-an-executable/902/18
+# Power Shell tricks #
 
 
-Command to create win ditribution:
+## Check authorized users ##
+Copy paste all the authorized usernames into C:\CyberPatriot\authorized.txt, including administrators. 
+
+You can run command that will check and remove users that are on the system:
+```PowerShell
+ (Get-LocalUser).Name | ForEach-Object -Process {  if ( $_ -notin  (Get-Content -Path C:\CyberPatriot\authorized.txt)) {  Remove-LocalUser -Name $_ -Confirm } }
 
 ```
-pyinstaller --onefile --additional-hooks-dir=c:\work\pat\hooks st_run.spec --clean
-copy actual python file into the same dir as the executable
+
+Explanation for the command:<br/>
+```(Get-LocalUser).Name``` lists all the current users on the system:
+```
+Administrator
+ashat
+DefaultAccount
+Guest
+WDAGUtilityAccount
+```
+```(Get-Content -Path C:\CyberPatriot\authorized.txt)``` lists all the names copy pasted from Cyberpatriot instructions
+
+```PowerShell
+(Get-LocalUser).Name | ForEach-Object -Process {   $_  }
+``` 
+iterates over each local user on the systems and executes code in ```-Process``` block in ```{ }``` with ```$_``` variable for username of the local user
+
+Now we check if the local users are in our authorized list, with operator ```-notin```:
+```PowerShell
+ (Get-LocalUser).Name | ForEach-Object -Process {  $_ -notin  (Get-Content -Path C:\CyberPatriot\authorized.txt)  }
+
+```
+Putting it all together with ```if``` users not in our authorized file list, we run PowerShell remove users command: ```Remove-LocalUser -Name $_ -Confirm```
+
+First we want to display which users we will remove:
+```PowerShell
+ (Get-LocalUser).Name | ForEach-Object -Process {  if ( $_ -notin  (Get-Content -Path C:\CyberPatriot\authorized.txt)) {   $_  } }
+ ```
+
+Then we execute actual ```Remove-LocalUser```
+
+```PowerShell
+ (Get-LocalUser).Name | ForEach-Object -Process {  if ( $_ -notin  (Get-Content -Path C:\CyberPatriot\authorized.txt)) {  Remove-LocalUser -Name $_ -Confirm } }
 ```
 
-Hardcoded Win path in ```st_run.spec```
-
-
-### First cut
-
-![demo](first_cut.gif)
+[Python scan tool](PYTHON_TOOL.MD)
 
 
 
