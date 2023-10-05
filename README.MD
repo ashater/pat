@@ -12,8 +12,36 @@ You can run command that will check and remove users that are on the system:
  (Get-LocalUser).Name | ForEach-Object -Process {  if ( $_ -notin  (Get-Content -Path C:\CyberPatriot\authorized.txt)) {  Remove-LocalUser -Name $_ -Confirm } }
 
 ```
+<details>
+<summary>Alternartive code, with comments and variables:</summary>
 
-Explanation for the command:<br/>
+```PowerShell
+# Define the path to the text file containing your list of users
+$userListFilePath = "C:\CyberPatriot\authorized.txt"
+
+# Read the list of users from the text file into an array
+$userList = Get-Content $userListFilePath
+
+# Get a list of all user accounts on the system
+$currentUsers = Get-LocalUser | Select-Object -ExpandProperty Name
+
+# Loop through each user in the current user list
+foreach ($currentUser in $currentUsers) {
+    # Check if the current user is not in the list of users
+    if ($userList -notcontains $currentUser) {
+        # Remove the user account (you may want to add a confirmation prompt or additional safety checks)
+        Remove-LocalUser -Name $currentUser -Force
+    }
+}
+
+# Display a message indicating the process is complete
+Write-Host "User removal process complete."
+```
+</details>
+
+<b>Explanation for the command:</b>
+
+
 ```(Get-LocalUser).Name``` lists all the current users on the system:
 ```
 Administrator
